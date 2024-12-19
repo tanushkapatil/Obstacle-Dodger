@@ -2,28 +2,32 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] Transform player ;
-    [SerializeField] float speed = 1.0f ;
-    Vector3 playerPosition ;
-    void Start()
-    {
-        playerPosition = player.transform.position ;
+    [SerializeField] Transform player;
+    [SerializeField] float speed = 1.0f;
+    Vector3 playerPosition;
+
+    void Awake() {
+        gameObject.SetActive(false);        
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        playerPosition = player.transform.position; 
+    }
+    
     void Update()
     {
-        MoveToPlayer() ;
-        DestroyWhenReached() ;
+        MoveToPlayer();
+        DestroyWhenReached();
     }
 
     void MoveToPlayer() {
-        transform.position = Vector3.MoveTowards(transform.position,playerPosition, Time.deltaTime*speed) ;
+        transform.position = Vector3.MoveTowards(transform.position, playerPosition, Time.deltaTime * speed);
     }
 
     void DestroyWhenReached() {
-        if(transform.position == player.position) {
-            Destroy(gameObject) ;
+        if (Vector3.Distance(transform.position, playerPosition) < 0.01f) {
+            Destroy(gameObject);
         }
     }
 }
